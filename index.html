@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfólio | Telma Cristina</title>
+    <!-- Ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Seu CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="root"></div>
+
+    <!-- Bibliotecas React e Babel -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- O seu código do CodePen entra aqui dentro deste script type="text/babel" -->
+    <script type="text/babel">
+        const { useState } = React;
+
+        const App = () => {
+          const [secao, setSecao] = useState('perfil');
+          const [dark, setDark] = useState(false);
+          const [depoimentos, setDepoimentos] = useState([
+            { nome: "Márcia Martins", texto: "A Telma é muito dedicada!" }
+          ]);
+          const [novoNome, setNovoNome] = useState("");
+          const [novoTexto, setNovoTexto] = useState("");
+
+          const dados = {
+            nome: "Telma Cristina Bonifácio",
+            cargo: "Especialista em TI | Desenvolvedora Front-end | Gestora de Infraestrutura",
+            foto: "https://media.licdn.com/dms/image/v2/D4D03AQF1w9962Kac5g/profile-displayphoto-scale_400_400/B4DZ1j1JAvHgAk-/0/1775496373427?e=1776902400&v=beta&t=C3wVxTIiebE0RnBsQVXYuJGjBFlVXYwEXvHcnXWP6i4", 
+            whatsapp: "5592994901313", 
+            email: "cristinabonifacio@gmail.com",
+            skills: [
+              { nome: "React", icone: "fab fa-react", cor: "#61dafb" },
+              { nome: "JavaScript", icone: "fab fa-js", cor: "#f7df1e" },
+              { nome: "Redes/Infra", icone: "fas fa-network-wired", cor: "#1572b6" },
+              { nome: "Cibersegurança", icone: "fas fa-shield-alt", cor: "#e34f26" }
+            ],
+            projetos: [
+              { nome: "Conectividade Starlink", desc: "Implantação de +1.100 antenas Starlink na rede educacional.", link: "#" },
+              { nome: "Segurança de Rede", desc: "Implementação de 640 Firewalls em escolas estaduais.", link: "#" },
+              { nome: "Calculadora IMC React", desc: "Projeto prático desenvolvendo lógica em React Hooks.", link: "#" }
+            ],
+            formacao: [
+              { nome: "Pós: Análise e Desenv. de Software (ADS)", local: "Estácio | 2025-2026", status: "Cursando" },
+              { nome: "Pós: Redes de Computadores", local: "ESAB", status: "Concluído" },
+              { nome: "Graduação: Gestão em Tecnologia de Redes", local: "Ulbra", status: "Concluído" },
+              { nome: "CCNA: Fundamentos de Redes", local: "Cisco Certified", status: "Certificada" },
+              { nome: "ITIL & Gerência de Projetos", local: "Governança de TI", status: "Concluído" },
+              { nome: "Power BI", local: "Análise de Dados", status: "Concluído" }
+            ]
+          };
+
+          const toggleDark = () => {
+            setDark(!dark);
+            document.body.classList.toggle('dark-mode');
+          };
+
+          const enviarRecado = (e) => {
+            e.preventDefault();
+            if (novoNome && novoTexto) {
+              setDepoimentos([{ nome: novoNome, texto: novoTexto }, ...depoimentos]);
+              setNovoNome(""); setNovoTexto("");
+            }
+          };
+
+          const abrirEmail = () => {
+            window.location.href = `mailto:${dados.email}`;
+          };
+
+          const BotaoVoltar = () => (
+            <button 
+              onClick={() => setSecao('perfil')}
+              style={{
+                background: 'none',
+                border: 'none',
+                color: 'var(--primary-red)',
+                cursor: 'pointer',
+                fontSize: '0.9em',
+                fontWeight: 'bold',
+                marginTop: '20px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '5px 0'
+              }}>
+              <i className="fas fa-arrow-left"></i> Voltar ao Início
+            </button>
+          );
+
+          return (
+            <div>
+              <header>
+                <button onClick={toggleDark} className="dark-toggle">
+                  <i className={dark ? "fas fa-sun" : "fas fa-moon"}></i>
+                </button>
+                <img src={dados.foto} alt={dados.nome} className="profile-photo" />
+                <h1>{dados.nome}</h1>
+                <p>{dados.cargo}</p>
+                <nav>
+                  <button className={`nav-link ${secao === 'perfil' ? 'active' : ''}`} onClick={() => setSecao('perfil')}>SOBRE</button>
+                  <button className={`nav-link ${secao === 'projetos' ? 'active' : ''}`} onClick={() => setSecao('projetos')}>DESTAQUES</button>
+                  <button className={`nav-link ${secao === 'certs' ? 'active' : ''}`} onClick={() => setSecao('certs')}>FORMAÇÃO</button>
+                  <button className={`nav-link ${secao === 'mural' ? 'active' : ''}`} onClick={() => setSecao('mural')}>MURAL</button>
+                </nav>
+              </header>
+
+              <main className="card">
+                {secao === 'perfil' && (
+                  <div>
+                    <h2>Resumo Profissional</h2>
+                    <p style={{textAlign: 'justify', lineHeight: '1.6'}}>
+                      Especialista em TI com mais de <strong>25 anos de sólida experiência</strong> em infraestrutura organizacional. 
+                      Na SEDUC/AM, atuei estrategicamente na gestão de manutenção e segurança, liderando projetos como a implantação de <strong>1.100 antenas Starlink</strong> e <strong>640 firewalls</strong>. 
+                      Atualmente em transição para o desenvolvimento, unindo expertise em Redes e Governança com <strong>React</strong> e <strong>ADS</strong>.
+                    </p>
+                    <button onClick={abrirEmail} className="email-btn-custom">
+                      <i className="fas fa-envelope"></i> Entrar em Contato por E-mail
+                    </button>
+
+                    <div style={{display: 'flex', justifyContent: 'center', gap: '20px', marginTop: '30px', flexWrap: 'wrap'}}>
+                      {dados.skills.map((s, i) => (
+                        <div key={i} style={{textAlign: 'center', width: '80px'}}>
+                          <i className={s.icone} style={{fontSize: '2.5em', color: s.cor, display: 'block'}}></i>
+                          <span style={{fontSize: '0.7em', fontWeight: 'bold'}}>{s.nome}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {secao === 'projetos' && (
+                  <div>
+                    <h2>Projetos e Destaques de Carreira</h2>
+                    <div className="grid-projetos">
+                      {dados.projetos.map((p, i) => (
+                        <div key={i} className="item-card" style={{borderTop: '4px solid var(--primary-red)', borderLeft: 'none'}}>
+                          <h3>{p.nome}</h3>
+                          <p>{p.desc}</p>
+                          <span className="impacto-tag">Impacto Organizacional</span>
+                        </div>
+                      ))}
+                    </div>
+                    <BotaoVoltar />
+                  </div>
+                )}
+
+                {secao === 'certs' && (
+                  <div>
+                    <h2>Formação Acadêmica e Academias</h2>
+                    {dados.formacao.map((f, i) => (
+                      <div key={i} className="item-card">
+                        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                          <strong>{f.nome}</strong>
+                          <span className="status-tag">{f.status}</span>
+                        </div>
+                        <p className="local-text">{f.local}</p>
+                      </div>
+                    ))}
+                    <BotaoVoltar />
+                  </div>
+                )}
+
+                {secao === 'mural' && (
+                  <div>
+                    <h2>Mural de Recados</h2>
+                    <form onSubmit={enviarRecado} className="mural-form">
+                      <input placeholder="Seu nome" value={novoNome} onChange={(e) => setNovoNome(e.target.value)} />
+                      <textarea placeholder="Sua mensagem" value={novoTexto} onChange={(e) => setNovoTexto(e.target.value)} rows="3" />
+                      <button type="submit" className="btn-post">Publicar Recado</button>
+                    </form>
+                    {depoimentos.map((d, i) => (
+                      <div key={i} className="item-card">
+                        <p>{d.texto}</p>
+                        <small>— <strong>{d.nome}</strong></small>
+                      </div>
+                    ))}
+                    <BotaoVoltar />
+                  </div>
+                )}
+              </main>
+
+              <div className="footer-info">
+                 <i className="fas fa-map-marker-alt"></i> Manaus, AM | {dados.email}
+              </div>
+
+              <a href={`https://wa.me/${dados.whatsapp}`} className="whatsapp-btn" target="_blank" title="Fale comigo no WhatsApp">
+                <i className="fab fa-whatsapp"></i>
+              </a>
+            </div>
+          );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
